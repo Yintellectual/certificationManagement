@@ -377,7 +377,8 @@
 									<h4 class="subheading">第二阶段施工</h4>
 								</div>
 								<div class="timeline-body">
-									<p class="text-muted">目标为实现完整的业务流程， 包括客户申请表， 客户信息数据哭， 和后台管理界面， 并集成第一阶段开发的pdf在线生成工具</p>
+									<p class="text-muted">目标为实现完整的业务流程， 包括客户申请表， 客户信息数据哭，
+										和后台管理界面， 并集成第一阶段开发的pdf在线生成工具</p>
 								</div>
 							</div>
 						</li>
@@ -861,9 +862,39 @@
 				};
 			}
 
-			var template = "<div class=\"tab-pane fade\" id=\"list-{1}\" role=\"tabpanel\" aria-labelledby=\"list-profile-list\">\r\n    <ol class=\"list-group list-group-flush\"><li class=\"list-group-item\">\u540D\u5B57\uFF1A{0}<\/li>\r\n<li class=\"list-group-item\">\u7535\u8BDD\uFF1A{1}<\/li>\r\n<li class=\"list-group-item\">\u5FAE\u4FE1\uFF1A{2}<\/li>\r\n<li class=\"list-group-item\">\u5907\u6CE8\uFF1A{3}<\/li><\/ol>\r\n    \r\n<button type=\"button\" class=\"btn btn-success btn-lg btn-block\">\u540C\u610F<\/button>\r\n<button type=\"button\" class=\"btn btn-secondary btn-lg btn-block\">\u62D2\u7EDD<\/button>\r\n    \r\n    <\/div>";
+			var template = "<div class=\"tab-pane fade\" id=\"list-{1}\" role=\"tabpanel\" aria-labelledby=\"list-profile-list\">\r\n    <ol class=\"list-group list-group-flush\"><li class=\"list-group-item\">\u540D\u5B57\uFF1A{0}<\/li>\r\n<li class=\"list-group-item\">\u7535\u8BDD\uFF1A{1}<\/li>\r\n<li class=\"list-group-item\">\u5FAE\u4FE1\uFF1A{2}<\/li>\r\n<li class=\"list-group-item\">\u7533\u8BF7\u65F6\u95F4\uFF1A{3}</li>\r\n<li class=\"list-group-item\">\u53D7\u7406\u65F6\u95F4\uFF1A{4}</li>\r\n<li class=\"list-group-item\">\u8BC1\u4E66\u5730\u5740\uFF1A{5}</li>\r\n<li class=\"list-group-item\">\u5907\u6CE8\uFF1A{6}</li><\/ol>\r\n    \r\n<button type=\"button\" onclick=approve({1}) class=\"btn btn-success btn-lg btn-block\">\u540C\u610F<\/button>\r\n<button type=\"button\" onclick=deny({1}) class=\"btn btn-secondary btn-lg btn-block\">\u62D2\u7EDD<\/button>\r\n    \r\n    <\/div>";
 			return template.format(contractor.name, contractor.phone,
-					contractor.wechat, "...");
+					contractor.wechat, contractor.applyTime, contractor.handleTime, contractor.contractLink, contractor.message);
+		}
+		function approve(phone) {
+			$.ajax({
+				type : "POST",
+				url : window.location.href + "management/approve",
+				data :phone+"",
+				processData: false,
+				'contentType': 'application/json',
+				success: function(data) {
+				   
+				      window.location.reload(); // This is not jQuery but simple plain ol' JS
+				   
+				  }
+			});
+
+		}
+		function deny(phone) {
+			$.ajax({
+				type : "POST",
+				url : window.location.href + "management/deny",
+				data : phone+"",
+				processData: false,
+				'contentType': 'application/json',
+					success: function(data) {
+					
+					      window.location.reload(); // This is not jQuery but simple plain ol' JS
+					
+					  }
+			});
+
 		}
 		$(document)
 				.ready(
@@ -872,7 +903,7 @@
 									.ajax(
 											{
 												url : window.location.href
-														+ "/management/listAllApplication"
+														+ "management/listAllApplication"
 											})
 									.then(
 											function(data) {

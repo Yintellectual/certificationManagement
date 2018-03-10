@@ -11,6 +11,15 @@ public class Contractor {
     private String name;
 	private String phone;
 	private String wechat;
+	private String applyTime;
+	private String handleTime;
+	private String contractLink;
+	private String message;
+	public Contractor(String name, String phone, String wechat){
+		this.name = name;
+		this.phone = phone;
+		this.wechat = wechat;
+	}
 	
 	public String getName(){
 		return name;
