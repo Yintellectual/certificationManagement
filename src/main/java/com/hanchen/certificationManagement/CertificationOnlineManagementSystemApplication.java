@@ -26,15 +26,6 @@ public class CertificationOnlineManagementSystemApplication {
 
 			@Override
 			public void run(String... args) throws Exception {
-				// TODO Auto-generated method stub
-				Contractor[] array = new Contractor[3];
-				array[0] = new Contractor("11", "12", "13");
-				array[1] = new Contractor("21", "22", "23");
-				array[2] = new Contractor("31", "32", "33");
-				contractorDAO.add(array[0]);
-				contractorDAO.add(array[1]);
-				contractorDAO.add(array[2]);
-				System.out.println(Arrays.toString(contractorDAO.findAll()));
 			}
 		};
 	}

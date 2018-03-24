@@ -85,27 +85,76 @@ public class PdfGenaratorUtil {
             BaseFont bf = BaseFont.createFont("/SIMHEI.TTF", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
             // write text
             //姓名
-            over.beginText();
-            over.setFontAndSize(bf, 20);    // set font and size
-            over.setTextMatrix(250, 550);   // set x,y position (0,0 is at the bottom left)
-            //over.setTextMatrix(150, 230);   // set x,y position (0,0 is at the bottom left)
-            over.showText(contractor.getName());  // set text
-            System.out.println(contractor.getName());
-            over.endText();
+//            over.beginText();
+//            over.setFontAndSize(bf, 20);    // set font and size
+//            over.setTextMatrix(250, 550);   // set x,y position (0,0 is at the bottom left)
+//            //over.setTextMatrix(150, 230);   // set x,y position (0,0 is at the bottom left)
+//            over.showText(contractor.getName());  // set text
+//            System.out.println(contractor.getName());
+//            over.endText();
+//
+//            //电话
+//            over.beginText();
+//            over.setFontAndSize(bf, 10);    // set font and size
+//            over.setTextMatrix(250, 500);   // set x,y position (0,0 is at the bottom left)
+//            //over.setTextMatrix(350, 230);   // set x,y position (0,0 is at the bottom left)
+//            over.showText(contractor.getPhone());  // set text
+//            over.endText();
 
-            //电话
+            //授权方
             over.beginText();
-            over.setFontAndSize(bf, 10);    // set font and size
-            over.setTextMatrix(250, 500);   // set x,y position (0,0 is at the bottom left)
-            //over.setTextMatrix(350, 230);   // set x,y position (0,0 is at the bottom left)
+            over.setFontAndSize(bf, 12);    // set font and size
+            over.setTextMatrix(200, 561);   // set x,y position (0,0 is at the bottom left)
+            over.showText("济宁市艾芝堂艾炙制品有限公司");  // set text
+            over.endText();
+            
+            //兹授权
+            over.beginText();
+            over.setFontAndSize(bf, 12);    // set font and size
+            over.setTextMatrix(200, 542);   // set x,y position (0,0 is at the bottom left)
+            over.showText(contractor.getName());  // set text
+            over.endText();
+            
+            //姓名
+            over.beginText();
+            over.setFontAndSize(bf, 12);    // set font and size
+            over.setTextMatrix(200, 523);   // set x,y position (0,0 is at the bottom left)
+            over.showText(contractor.getName());  // set text
+            over.endText();
+            
+            //微信号
+            over.beginText();
+            over.setFontAndSize(bf, 12);    // set font and size
+            over.setTextMatrix(200, 504);   // set x,y position (0,0 is at the bottom left)
+            over.showText(contractor.getWechat());  // set text
+            over.endText();
+            
+            //手机号
+            over.beginText();
+            over.setFontAndSize(bf, 12);    // set font and size
+            over.setTextMatrix(200, 485);   // set x,y position (0,0 is at the bottom left)
             over.showText(contractor.getPhone());  // set text
             over.endText();
-
-            //微信
+            
+            //授权级别
             over.beginText();
-            over.setFontAndSize(bf, 10);    // set font and size
-            over.setTextMatrix(250, 450);   // set x,y position (0,0 is at the bottom left)
-            over.showText(contractor.getWechat());  // set text
+            over.setFontAndSize(bf, 12);    // set font and size
+            over.setTextMatrix(200, 466);   // set x,y position (0,0 is at the bottom left)
+            over.showText(contractor.getShouquanJibie());  // set text
+            over.endText();
+            
+            //授权码
+            over.beginText();
+            over.setFontAndSize(bf, 12);    // set font and size
+            over.setTextMatrix(200, 447);  // set x,y position (0,0 is at the bottom left)
+            over.showText(contractor.getShouquanBianma());  // set text
+            over.endText();
+            
+            //日期
+            over.beginText();
+            over.setFontAndSize(bf, 15);    // set font and size
+            over.setTextMatrix(375, 304);   // set x,y position (0,0 is at the bottom left)
+            over.showText(contractor.getShouquanRiqi());  // set text
             over.endText();
 
             // draw a red circle

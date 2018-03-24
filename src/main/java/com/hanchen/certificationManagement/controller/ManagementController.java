@@ -4,6 +4,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -33,34 +36,47 @@ public class ManagementController {
 		return contractorDAO.findAll();
 	}
 	
-	@PostMapping("/management/approve")
+	@PostMapping("/management/find")
 	@ResponseBody
-	public Contractor approve(@RequestBody String phone, HttpServletRequest request) {
-		Contractor contractor = contractorDAO.find(phone);
-		if(contractor==null){
-			return null;
-		}
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		String handleTime = LocalDateTime.now().format(formatter); 
-		String contractLink = "";
-		try {
-			URL serverURL = new URL(request.getRequestURL().toString());
-			contractLink = serverURL.getHost()+":"+serverURL.getPort()+"/certification/"+phone+".pdf";
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			pdfGenaratorUtil.editPdf("sample.pdf", contractor);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		contractorDAO.approve(phone, handleTime, contractLink);
-		contractor.setHandleTime(handleTime);
-		contractor.setContractLink(contractLink);
-		return contractor;
+	public Contractor find(@RequestBody String phone) {
+		System.out.println("find " + phone);
+		return contractorDAO.find(phone);
 	}
+	
+	@GetMapping("/management/countApplicants")
+	@ResponseBody
+	public String countApplicants(){
+		return contractorDAO.countApplicants()+"";
+	}
+	
+//	@PostMapping("/management/approve")
+//	@ResponseBody
+//	public Contractor approve(@RequestBody String phone, HttpServletRequest request) {
+//		Contractor contractor = contractorDAO.find(phone);
+//		if(contractor==null){
+//			return null;
+//		}
+//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//		String handleTime = LocalDateTime.now().format(formatter); 
+//		String contractLink = "";
+//		try {
+//			URL serverURL = new URL(request.getRequestURL().toString());
+//			contractLink = serverURL.getHost()+":"+serverURL.getPort()+"/certification/"+phone+".pdf";
+//		} catch (MalformedURLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		try {
+//			pdfGenaratorUtil.editPdf("sample.pdf", contractor);
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		contractorDAO.approve(phone, handleTime, contractLink);
+//		contractor.setHandleTime(handleTime);
+//		contractor.setContractLink(contractLink);
+//		return contractor;
+//	}
 	
 	@PostMapping("/management/deny")
 	@ResponseBody

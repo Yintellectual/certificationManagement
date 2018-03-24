@@ -50,7 +50,8 @@
 					<li class="nav-item"><a class="nav-link js-scroll-trigger"
 						href="#services">填写申请</a></li>
 					<li class="nav-item"><a class="nav-link js-scroll-trigger"
-						href="#management">后台管理<span class="badge badge-danger">10</span></a></li>
+						href="#management">后台管理<span class="badge badge-danger"
+							id="countApplicants"></span></a></li>
 					<li class="nav-item"><a class="nav-link js-scroll-trigger"
 						href="#portfolio">功能介绍</a></li>
 					<li class="nav-item"><a class="nav-link js-scroll-trigger"
@@ -73,8 +74,7 @@
 			<div class="intro-text">
 				<div class="intro-lead-in">工程试用版本</div>
 				<div class="intro-heading text-uppercase">证书业务应用软件</div>
-				<a class="btn btn-primary btn-xl js-scroll-trigger"
-					href="#management">现在开始</a>
+				<a class="btn btn-primary btn-xl " href="#management">现在开始</a>
 			</div>
 		</div>
 	</header>
@@ -90,7 +90,7 @@
 			</div>
 			<form id="contractorForm">
 				<div class="row text-center">
-					<div class="col-md-4">
+					<div class="col-md-3">
 						<span class="fa-stack fa-4x"> <i
 							class="fa fa-circle fa-stack-2x text-primary"></i> <i
 							class="fa fa-child fa-stack-1x fa-inverse"></i>
@@ -99,7 +99,7 @@
 						<input name="name" id="name" />
 						<p class="text-muted">请确保姓名与身份证号的有效性</p>
 					</div>
-					<div class="col-md-4">
+					<div class="col-md-3">
 						<span class="fa-stack fa-4x"> <i
 							class="fa fa-circle fa-stack-2x text-primary"></i> <i
 							class="fa fa-mobile-phone fa-stack-1x fa-inverse"></i>
@@ -108,13 +108,28 @@
 						<input name="phone" id="phone" />
 						<p class="text-muted">请填写本人实名认证的手机</p>
 					</div>
-					<div class="col-md-4">
+					<div class="col-md-3">
 						<span class="fa-stack fa-4x"> <i
 							class="fa fa-circle fa-stack-2x text-primary"></i> <i
 							class="fa fa-wechat fa-stack-1x fa-inverse"></i>
 						</span>
 						<h4 class="service-heading">微信账号</h4>
 						<input name="wechat" id="wechat" />
+						<p class="text-muted">请注意并非微信昵称， 而是登陆用的用户账号</p>
+					</div>
+					<div class="col-md-3">
+						<span class="fa-stack fa-4x"> <i
+							class="fa fa-circle fa-stack-2x text-primary"></i> <i
+							class="fa fa-handshake-o fa-stack-1x fa-inverse"></i>
+						</span>
+						<h4 class="service-heading">授权级别</h4>
+						<select class="form-control" name="shouquanJibie"
+							id="shouquanJibie">
+							<option>全国总代理</option>
+							<option>省级总代理</option>
+							<option>市级总代理</option>
+							<option>县级总代理</option>
+						</select>
 						<p class="text-muted">请注意并非微信昵称， 而是登陆用的用户账号</p>
 					</div>
 				</div>
@@ -157,13 +172,24 @@
 						contentType : "application/json"
 					});
 
-					document.getElementById('pdfDownloadUrl').value = (window.location.href
-							+ 'certification/' + phone + ".pdf");
+					document.getElementById('pdfDownloadUrl').value = (window.location.protocol
+							+ "//"
+							+ window.location.host
+							+ '/certification/'
+							+ phone + ".pdf");
 
 				}
+				function downloadFile(filePath) {
+					var link = document.createElement('a');
+					link.href = filePath;
+					link.download = filePath
+							.substr(filePath.lastIndexOf('/') + 1);
+					link.click();
+				}
 				function downloadPdf() {
-					window.open(window.location.href + 'certification/' + phone
-							+ ".pdf");
+					//alert(document.getElementById('pdfDownloadUrl').value);
+					window
+							.open(document.getElementById('pdfDownloadUrl').value);
 				}
 				function objectifyForm(formArray) {//serialize data function
 
@@ -862,49 +888,89 @@
 				};
 			}
 
-			var template = "<div class=\"tab-pane fade\" id=\"list-{1}\" role=\"tabpanel\" aria-labelledby=\"list-profile-list\">\r\n    <ol class=\"list-group list-group-flush\"><li class=\"list-group-item\">\u540D\u5B57\uFF1A{0}<\/li>\r\n<li class=\"list-group-item\">\u7535\u8BDD\uFF1A{1}<\/li>\r\n<li class=\"list-group-item\">\u5FAE\u4FE1\uFF1A{2}<\/li>\r\n<li class=\"list-group-item\">\u7533\u8BF7\u65F6\u95F4\uFF1A{3}</li>\r\n<li class=\"list-group-item\">\u53D7\u7406\u65F6\u95F4\uFF1A{4}</li>\r\n<li class=\"list-group-item\">\u8BC1\u4E66\u5730\u5740\uFF1A{5}</li>\r\n<li class=\"list-group-item\">\u5907\u6CE8\uFF1A{6}</li><\/ol>\r\n    \r\n<button type=\"button\" onclick=approve({1}) class=\"btn btn-success btn-lg btn-block\">\u540C\u610F<\/button>\r\n<button type=\"button\" onclick=deny({1}) class=\"btn btn-secondary btn-lg btn-block\">\u62D2\u7EDD<\/button>\r\n    \r\n    <\/div>";
+			var template = "<div class=\"tab-pane fade\" id=\"list-{1}\" role=\"tabpanel\" aria-labelledby=\"list-profile-list\">\r\n    <ol class=\"list-group list-group-flush\"><li class=\"list-group-item\">\u540D\u5B57\uFF1A{0}<\/li>\r\n<li class=\"list-group-item\">\u7535\u8BDD\uFF1A{1}<\/li>\r\n<li class=\"list-group-item\">\u5FAE\u4FE1\uFF1A{2}<\/li>\r\n<li class=\"list-group-item\">\u7533\u8BF7\u65F6\u95F4\uFF1A{3}</li>\r\n<li class=\"list-group-item\">\u53D7\u7406\u65F6\u95F4\uFF1A{4}</li>\r\n<li class=\"list-group-item\">\u8BC1\u4E66\u5730\u5740\uFF1A{5}</li>"
+					+ "\r\n<li class=\"list-group-item\">\u6388\u6743\u7EA7\u522B\uFF1A{6}</li><\/ol>\r\n"
+					+ "\r\n<li class=\"list-group-item\">\u6388\u6743\u7F16\u7801\uFF1A{7}</li><\/ol>\r\n"
+					+ "\r\n<li class=\"list-group-item\">\u6388\u6743\u65E5\u671F\uFF1A{8}</li><\/ol>\r\n"
+					+ "\r\n<li class=\"list-group-item\">\u5907\u6CE8\uFF1A{9}</li><\/ol>\r\n"
+					+ "\r\n<button type=\"button\" onclick=edit({1}) class=\"btn btn-success btn-lg btn-block\">\u7F16\u8F91<\/button>"
+					+ "\r\n<button type=\"button\" onclick=deny({1}) class=\"btn btn-secondary btn-lg btn-block\">\u62D2\u7EDD<\/button>\r\n    \r\n    <\/div>";
 			return template.format(contractor.name, contractor.phone,
-					contractor.wechat, contractor.applyTime, contractor.handleTime, contractor.contractLink, contractor.message);
+					contractor.wechat, contractor.applyTime,
+					contractor.handleTime, contractor.contractLink,
+					contractor.shouquanJibie, contractor.shouquanBianma,
+					contractor.shouquanRiqi, contractor.message);
+		}
+		function edit(phone) {
+
+			$.ajax({
+				type : "POST",
+				url : "/management/find",
+				data : phone + "",
+				processData : false,
+				'contentType' : 'application/json',
+				success : function(data) {
+					$("#name").val(data.name);
+					$("#phone").val(data.phone);
+					$("#wechat").val(data.wechat);
+					$("#shouquanJibie").val(data.shouquanJibie);
+					$("#pdfDownloadUrl").val(data.contractLink);
+					//window.location.reload(); // This is not jQuery but simple plain ol' JS					
+				}
+			});
+
+			location.href = "#services";
 		}
 		function approve(phone) {
 			$.ajax({
 				type : "POST",
 				url : window.location.href + "management/approve",
-				data :phone+"",
-				processData: false,
-				'contentType': 'application/json',
-				success: function(data) {
-				   
-				      window.location.reload(); // This is not jQuery but simple plain ol' JS
-				   
-				  }
+				data : phone + "",
+				processData : false,
+				'contentType' : 'application/json',
+				success : function(data) {
+
+					window.location.reload(); // This is not jQuery but simple plain ol' JS
+
+				}
 			});
 
 		}
 		function deny(phone) {
 			$.ajax({
 				type : "POST",
-				url : window.location.href + "management/deny",
-				data : phone+"",
-				processData: false,
-				'contentType': 'application/json',
-					success: function(data) {
-					
-					      window.location.reload(); // This is not jQuery but simple plain ol' JS
-					
-					  }
+				url : "/management/deny",
+				data : phone + "",
+				processData : false,
+				'contentType' : 'application/json',
+				success : function(data) {
+
+					window.location.reload(); // This is not jQuery but simple plain ol' JS
+
+				}
 			});
 
 		}
 		$(document)
 				.ready(
+
 						function() {
 							$
-									.ajax(
-											{
-												url : window.location.href
-														+ "management/listAllApplication"
-											})
+									.ajax({
+										url : "/management/countApplicants/"
+									})
+									.then(
+											function(data) {
+												if (!(data == 0)) {
+													document
+															.getElementById("countApplicants").innerHTML = data;
+												}
+											});
+
+							$
+									.ajax({
+										url : "/management/listAllApplication/"
+									})
 									.then(
 											function(data) {
 												var arrayLength = data.length;
